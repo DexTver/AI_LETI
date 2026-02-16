@@ -75,7 +75,7 @@ def solve(x: int, y: int, alg="BFS", mode="auto"):
         if mode == "manual":
             grid_print([u])
             print("  |")
-            print(" " + "-" * (len(children) * 8 - 7))
+            print("  " + "-" * (len(children) * 8 - 7))
             print("  |     " * len(children))
             grid_print(children)
         for v in children:
