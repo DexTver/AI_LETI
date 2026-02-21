@@ -62,9 +62,11 @@ def solve(x: int, y: int, alg="BFS", mode="auto"):
     ans = list()
     q.append(x)
     history[x] = x
+    time_compl = 0
 
     while len(q) > 0:
         u = q.popleft()
+        time_compl += 1
         if u == y:
             while u != x:
                 ans.append(u)
@@ -93,7 +95,7 @@ def solve(x: int, y: int, alg="BFS", mode="auto"):
             print()
             if input() == "0":
                 return None
-    return ans
+    return ans, len(history.keys()), time_compl
 
 
 while True:
@@ -150,7 +152,13 @@ while True:
     if mode == "manual":
         solve(583402761, 123456780, alg, mode)
     else:
-        trek_print(solve(583402761, 123456780, alg, mode))
+        ans, space_compl, time_compl = solve(583402761, 123456780, alg, mode)
+        trek_print(ans)
+        print("----------------------------------------------")
+        print(f"Ёмкостная сложность: {space_compl}")
+        print(f"Временная сложность: {time_compl}")
+        print(f"Стоимость пути: {len(ans) - 1}")
+        print("----------------------------------------------")
         print("Чтобы вернуться в меню, нажмите любую клавишу.")
         input()
     continue
