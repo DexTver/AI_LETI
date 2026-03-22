@@ -12,6 +12,8 @@ pos_from_pos = {0: [1, 3],
                 8: [5, 7]
                 }
 
+START_STATE = 583402761
+GOAL_STATE = 123456780
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -33,6 +35,25 @@ def gen_children(x: int):
                 ans.append(swap_in_int(x, i, j))
             return ans
     return None
+
+
+def count_inversions(x: int) -> int:
+    arr = list()
+    for i in range(9):
+        d = extract_digit(x, i)
+        if d != 0:
+            arr.append(d)
+
+    inv = 0
+    for i in range(len(arr)):
+        for j in range(i + 1, len(arr)):
+            if arr[i] > arr[j]:
+                inv += 1
+    return inv
+
+
+def is_solvable(start: int, goal: int) -> bool:
+    return count_inversions(start) % 2 == count_inversions(goal) % 2
 
 
 def grid_print(ans: list, step=-1):
@@ -100,6 +121,10 @@ def solve(x: int, y: int, alg="BFS", mode="auto"):
 
 while True:
     clear_console()
+    print('Начальное состояние:')
+    grid_print([START_STATE])
+    print('Целевое состояние:')
+    grid_print([GOAL_STATE])
     print("Выберите алгоритм решения:\n"
           "1. BFS\n"
           "2. DFS\n\n"
@@ -149,10 +174,16 @@ while True:
     else:
         break
 
+    if not is_solvable(START_STATE, GOAL_STATE):
+        print("Данное начальное состояние неразрешимо для выбранного целевого состояния.")
+        print("Чтобы вернуться в меню, нажмите любую клавишу.")
+        input()
+        continue
+
     if mode == "manual":
-        solve(583402761, 123456780, alg, mode)
+        solve(START_STATE, GOAL_STATE, alg, mode)
     else:
-        ans, space_compl, time_compl = solve(583402761, 123456780, alg, mode)
+        ans, space_compl, time_compl = solve(START_STATE, GOAL_STATE, alg, mode)
         trek_print(ans)
         print("----------------------------------------------")
         print(f"Ёмкостная сложность: {space_compl}")
